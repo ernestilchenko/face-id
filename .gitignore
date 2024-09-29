@@ -1,0 +1,8 @@
+/venv/
+.idea/
+/docker-compose.yml
+/redis-data/
+/settings.yml
+*.pyc
+*.sqlite3
+*.jpg

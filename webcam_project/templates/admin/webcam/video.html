@@ -1,0 +1,97 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+<style>
+body {
+background-color: #000;
+color: #fff;
+font-family: Arial, sans-serif;
+}
+    #video-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    #video-container img {
+        border: 2px solid #666;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(255,255,255,0.1);
+    }
+
+    #recognized-names {
+        margin-top: 20px;
+        list-style-type: none;
+        padding: 0;
+        font-size: 1.2em;
+    }
+
+    #recognized-names li {
+        background: #333;
+        border: 1px solid #555;
+        padding: 10px;
+        margin: 5px 0;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(255,255,255,0.1);
+    }
+
+    #control-buttons {
+        margin-top: 20px;
+    }
+
+    #control-buttons button {
+        background-color: #444;
+        color: #fff;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    #control-buttons button:hover {
+        background-color: #666;
+    }
+
+    #control-buttons button:active {
+        background-color: #888;
+    }
+</style>
+
+<div id="video-container">
+    <h1>Webcam Video Feed</h1>
+    <img src="{% url 'video_feed' %}" width="640" height="480">
+    <div id="control-buttons">
+        <button id="open-door">Open Door</button>
+        <button id="close-door">Close Door</button>
+    </div>
+</div>
+
+<script>
+    document.getElementById('open-door').onclick = function() {
+        fetch("{% url 'open_door' %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}"
+            }
+        }).then(response => response.json())
+        .then(data => alert(data.message));
+    };
+
+    document.getElementById('close-door').onclick = function() {
+        fetch("{% url 'close_door' %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}"
+            }
+        }).then(response => response.json())
+        .then(data => alert(data.message));
+    };
+</script>
+{% endblock %}
